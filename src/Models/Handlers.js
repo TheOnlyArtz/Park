@@ -26,7 +26,7 @@ class Handlers {
       const run = require(`${path}/${full}`);
 
       this.events.set(short, run)
-      this.client.on(short, (client, ...args) => {run(this.client, ...args)});
+      this.client.on(short, (...args) => {run(this.client, ...args)});
     });
   }
 
@@ -39,7 +39,7 @@ class Handlers {
       const short = full.replace('.js', '');
       const command = require(`${path}/${full}`);
 
-      // this.commands.set(short, command)
+      this.commands.set(short, {run: command, help: command.help || {}})
     })
   }
 }

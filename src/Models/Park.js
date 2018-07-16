@@ -7,10 +7,9 @@ const path = require('path');
 */
 class Park extends Client {
     constructor(token, clientOptions, config) {
-      super();
+      super(clientOptions);
       this.token = token;
       this.config = config;
-      this.options = clientOptions;
       this.handlers = new Handlers(this, {
         events:path.join(__dirname, '..', 'Events'),
         commands: path.join(__dirname, '..', 'Commands')
