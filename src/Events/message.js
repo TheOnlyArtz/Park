@@ -6,7 +6,7 @@ const message = async (client, msg) => {
 
   const commands = client.handlers.commands;
   if (commands.get(command)) {
-    commands.get(command).run()
+    commands.get(command).run(client, msg, args)
   }
 }
 
