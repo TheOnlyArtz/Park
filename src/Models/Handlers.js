@@ -9,6 +9,8 @@ class Handlers {
     this.commands = new Collection;
     this.events = new Collection;
 
+    this.commandsCategories = ['Parent']
+
     this.client = client;
     this.commandsPath = paths.commands;
     this.eventsPath = paths.events;
@@ -22,7 +24,7 @@ class Handlers {
     // 'full' stands for the full name of the file (ready.js)
     // 'short' stadns for the name without extension (ready)
     files.forEach((full) => {
-      const short = full.replace('.js', '');
+      const short = full.replace(/\.js/g, '');
       const run = require(`${path}/${full}`);
 
       this.events.set(short, run)
@@ -30,16 +32,29 @@ class Handlers {
     });
   }
 
-  commandsHandler() {
-    const path = this.commandsPath;
+  commandsHandler(path = this.commandsPath, categoryName = 'Parent') {
     const files = fs.readdirSync(path);
-    const client = this.client;
 
     files.forEach((full) => {
-      const short = full.replace('.js', '');
-      const command = require(`${path}/${full}`);
+      const short = full.replace(/\.js/g, '');
+      const category = short === full ? true : false;
+      const setCommand = (name, command) => {
+        this.commands.set(name, {
+        name,
+        run: command,
+        help: command.help || {},
+        category: categoryName
+        })
+      }
 
-      this.commands.set(short, {run: command, help: command.help || {}})
+      if (category) {
+        this.commandsHandler(`${path}/${short}`, full)
+        this.commandsCategories.push(full)
+      } else {
+        const command = require(`${path}/${full}`);
+        setCommand(short, command)
+      }
+
     })
   }
 }

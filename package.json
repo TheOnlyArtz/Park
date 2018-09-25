@@ -18,6 +18,7 @@
   "homepage": "https://github.com/TheOnlyArtz/Park#readme",
   "dependencies": {
     "discord.js": "git+https://github.com/discordjs/discord.js.git",
+    "npm": "^6.4.1",
     "rethinkdbdash": "^2.3.31"
   }
 }

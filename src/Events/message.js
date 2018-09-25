@@ -5,8 +5,11 @@ const message = async (client, msg) => {
   const command = args.shift()
 
   const commands = client.handlers.commands;
-  if (commands.get(command)) {
-    commands.get(command).run(client, msg, args)
+  const executable = commands.get(command)
+  if (executable) {
+    executable
+      .run(client, msg, args)
+      .catch(console.error)
   }
 }
 
